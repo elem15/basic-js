@@ -16,29 +16,24 @@ class DepthCalculator {
   constructor() {
     this.count = 0;
   }
-  calculateDepth(arr) {
+  calculateDepth(arr, localCount = 1) {
     // throw new NotImplementedError('Not implemented');
-    if (Array.isArray(arr)) {
-      this.count = 1;
-    }
-    const calculate = (arr, localCount) => {
-      let countedLevel = false; 
-      let i = 0;
-      while (i < arr.length) {
-        if (Array.isArray(arr[i])) {
-          if (countedLevel === false) {            
-            localCount += 1;
-          }
-          calculate(arr[i], localCount);
-          countedLevel = true;
+    let countedLevel = false;
+    let i = 0;
+    while (i < arr.length) {
+      if (Array.isArray(arr[i])) {
+        if (countedLevel === false) {
+          localCount += 1;
         }
-        i += 1;
+        this.calculateDepth(arr[i], localCount);
+        countedLevel = true;
       }
-      if (localCount > this.count) {
-        this.count = localCount;
-      }
+      i += 1;
     }
-    calculate(arr, 1);
+    if (localCount > this.count) {
+      this.count = localCount;
+    }
+    localCount = 1;
     return this.count;
   }
 }

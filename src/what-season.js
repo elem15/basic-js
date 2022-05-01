@@ -16,7 +16,7 @@ function getSeason(date) {
   if (!date) return 'Unable to determine the time of year!';
 
   if (new Date(date.toString()).getMinutes() === new Date().getMinutes()
-    && new Date(date.toString()).getSeconds() === new Date().getSeconds()) {
+    && new Date(date.toString()).getHours() === new Date().getHours()) {
     throw new Error('Invalid date!')
   }
 
