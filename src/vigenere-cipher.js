@@ -61,6 +61,33 @@ class VigenereCipheringMachine {
     if (string === undefined || key === undefined ) {
       throw new Error('Incorrect arguments!')
     }
+    let message = '';
+    key = key.toLowerCase();
+    const keyLength = Math.ceil(string.length / key.length);
+    let tempKey = key;
+    for (let i = 0; i < keyLength; i += 1) {
+      key += tempKey;
+    }
+    // console.log(key)
+    string = string.toLowerCase();
+    let corr = 0;
+    for (let i = 0; i < string.length; i += 1) {
+      let strIdx = this.alphabet.indexOf(string[i]);
+      if (strIdx === -1) {
+        message += string[i];
+        corr += 1;
+      } else {
+        let keyIdx = this.alphabet.indexOf(key[i - corr]);
+        let codedIdx = strIdx - keyIdx;
+        if (codedIdx < 0) {
+          codedIdx = this.alphabet.length + codedIdx;
+        }
+        let codedChar = this.alphabet[codedIdx];
+        message += codedChar.toUpperCase();
+      }
+    }
+    if (this.direct) return message;
+    return message.split('').reverse().join('');
   }
 }
 
